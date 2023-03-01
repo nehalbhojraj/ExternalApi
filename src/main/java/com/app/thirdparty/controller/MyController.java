@@ -1,13 +1,13 @@
 package com.app.thirdparty.controller;
 
 import com.app.thirdparty.Model.DetectRequest;
+import com.app.thirdparty.Model.Employee;
 import com.app.thirdparty.service.ServiceLayer;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
@@ -16,12 +16,12 @@ public class MyController {
     @Autowired
     private ServiceLayer serviceLayer;
 
-    @GetMapping("/hello")
-    public String myController(){
-        return "Hello";
+    @GetMapping("/rest")
+    public ResponseEntity<String> consumeRest(){
+        return new ResponseEntity<>(serviceLayer.consumeRest(), HttpStatus.OK);
     }
 
-    @GetMapping("/thirdParty")
+    @GetMapping("/unirest")
     public Object detectLanguage(@RequestBody DetectRequest detectRequest) throws UnirestException {
         return serviceLayer.consumeApi(detectRequest.getText());
 
